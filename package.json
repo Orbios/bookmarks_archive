@@ -1,0 +1,9 @@
+{
+  "name": "bookmarks_archive",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "cd server && npm start",
+    "format": "prettier \"(server|client)/src/**/*.{js,json,css}\" --write --config .prettierrc"
+  }
+}
