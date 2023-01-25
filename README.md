@@ -20,3 +20,9 @@ npm run dev
 # build installation package for current OS
 npm run build
 ```
+
+## Releases
+
+You can download the latest version of the app by the link below:
+
+Download: [here](https://github.com/Orbios/bookmarks_archive/releases)
