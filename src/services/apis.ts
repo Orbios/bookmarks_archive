@@ -182,10 +182,14 @@ async function deleteBookmark(id) {
 
   const bookmarks = data.bookmarks;
 
-  for (let i = 0; i < bookmarks.length; i++) {
-    if (bookmarks[i].id === id) {
-      bookmarks[i].isDeleted = true;
-    }
+  const bookmark = bookmarks.find(bm => bm.id === id);
+
+  if (!bookmark) return;
+
+  if (bookmark.isDeleted) {
+    cacheHelper.deleteFromList(bookmarks, bookmark => bookmark.id === id);
+  } else {
+    bookmark.isDeleted = true;
   }
 
   return saveData();
