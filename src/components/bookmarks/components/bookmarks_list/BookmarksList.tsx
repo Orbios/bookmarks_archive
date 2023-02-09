@@ -63,6 +63,7 @@ function BookmarksList({onLoadData, onLoadTags}: Props) {
 
     if (!isEmpty(bookmarksToEdit)) {
       setBookmarkToEdit({...bookmarksToEdit[0]});
+      clearBookmarkSelection();
     }
   }
 
@@ -88,14 +89,12 @@ function BookmarksList({onLoadData, onLoadTags}: Props) {
 
     await onLoadData();
 
-    setSelectedBookmarks([]);
-    setAllSelected(false);
+    clearBookmarkSelection();
   }
 
   function selectAllBookmarks() {
     if (allSelected) {
-      setSelectedBookmarks([]);
-      setAllSelected(false);
+      clearBookmarkSelection();
       return;
     }
 
@@ -185,8 +184,8 @@ function BookmarksList({onLoadData, onLoadTags}: Props) {
     await onLoadData();
 
     cancelAddTag();
-    setAllSelected(false);
-    setSelectedBookmarks([]);
+
+    clearBookmarkSelection();
   }
 
   function cancelAddTag() {
@@ -218,6 +217,11 @@ function BookmarksList({onLoadData, onLoadTags}: Props) {
     }
 
     setBookmarkToEdit({...bookmarkToEdit, [field]: value});
+  }
+
+  function clearBookmarkSelection() {
+    setSelectedBookmarks([]);
+    setAllSelected(false);
   }
 
   function renderAddBookmarkAction() {
