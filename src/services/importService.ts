@@ -1,6 +1,7 @@
 import {find, isEmpty, forEach} from 'lodash';
 import {format} from 'date-fns';
 
+import config from '@/config';
 import storageHelper from './storageHelper';
 
 const fs = require('fs-extra');
@@ -55,7 +56,7 @@ async function importBrowserBookmarks(filePath) {
 
     const bookmarkId = ++maxId;
 
-    const newBookmark = {
+    const newBookmark: Bookmark = {
       id: bookmarkId,
       title: bookmark.title,
       url: bookmark.url,
@@ -152,7 +153,7 @@ function getTextContent(node) {
 
 function getFullDate(attrValue) {
   const unixTime = parseInt(attrValue);
-  const result = format(new Date(unixTime * 1000), 'MM/dd/yyyy');
+  const result = format(new Date(unixTime * 1000), config.format.date);
   return result;
 }
 

@@ -6,5 +6,6 @@ interface Bookmark {
   isDeleted?: boolean;
   isTagged?: boolean;
   creationDate?: Date;
+  lastEditDate?: Date;
   originalPath?: string;
 }

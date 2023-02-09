@@ -50,7 +50,7 @@ function BookmarksList({onLoadData, onLoadTags}: Props) {
   const [showAddTagModal, setShowAddTagModal] = useState<boolean>(false);
 
   function addBookmark() {
-    setBookmarkToEdit({id: 0, title: '', url: '', tags: []});
+    setBookmarkToEdit({id: 0, title: '', url: '', tags: [], creationDate: new Date()});
   }
 
   function editSelectedBookmark() {
@@ -62,7 +62,7 @@ function BookmarksList({onLoadData, onLoadTags}: Props) {
     });
 
     if (!isEmpty(bookmarksToEdit)) {
-      setBookmarkToEdit({...bookmarksToEdit[0]});
+      setBookmarkToEdit({...bookmarksToEdit[0], lastEditDate: new Date()});
       clearBookmarkSelection();
     }
   }
