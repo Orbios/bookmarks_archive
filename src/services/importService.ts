@@ -153,7 +153,7 @@ function getTextContent(node) {
 
 function getFullDate(attrValue) {
   const unixTime = parseInt(attrValue);
-  const result = format(new Date(unixTime * 1000), config.format.date);
+  const result = new Date(unixTime * 1000);
   return result;
 }
 

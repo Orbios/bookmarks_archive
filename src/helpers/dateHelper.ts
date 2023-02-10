@@ -1,14 +1,18 @@
-import {format} from 'date-fns';
-import {isDate} from 'lodash';
+import {format, isValid} from 'date-fns';
 
 import config from '@/config';
 
 export default {
-  displayDate
+  displayDate,
+  isValidDate
 };
 
 function displayDate(date) {
-  if (!isDate(date)) return date;
+  if (!isValidDate(date)) return date;
 
   return format(new Date(date), config.format.date);
+}
+
+function isValidDate(dateString: string) {
+  return isValid(new Date(dateString));
 }
