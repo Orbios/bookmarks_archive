@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components';
 
 import {colors} from '@/styles/shared';
 
-type tagField = 'title' | 'description' | 'tools';
+type tagField = 'title' | 'bookmarks' | 'description' | 'tools';
 
 export const wrapper = styled.div`
   position: absolute;
@@ -45,6 +45,12 @@ export const tableCell = styled.div<{field: tagField}>`
     props.field === 'title' &&
     css`
       min-width: 500px;
+    `}
+
+  ${props =>
+    props.field === 'bookmarks' &&
+    css`
+      min-width: 300px;
     `}
 
   ${props =>

@@ -36,7 +36,7 @@ function TagItem({tag, editTagAction, deleteTagAction}: Props) {
   function redirectToHomePage() {
     const selectedTags = [{value: tag.id, label: tag.title}];
 
-    dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.ALL, searchTags: selectedTags}));
+    dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.TAG_SELECTION, searchTags: selectedTags}));
     navigate('/');
   }
 
@@ -47,6 +47,8 @@ function TagItem({tag, editTagAction, deleteTagAction}: Props) {
           {tag.title}
         </Button>
       </styledCommon.tableCell>
+
+      <styledCommon.tableCell field="bookmarks">{tag.bookmarkCount || '-'}</styledCommon.tableCell>
 
       <styledCommon.tableCell field="description">{tag.description}</styledCommon.tableCell>
 

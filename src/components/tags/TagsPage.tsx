@@ -97,6 +97,7 @@ function TagsPage() {
             <styled.tableHeader>
               <styled.tableRow>
                 <styled.tableCell field="title">Title</styled.tableCell>
+                <styled.tableCell field="bookmarks">Number of bookmarks</styled.tableCell>
                 <styled.tableCell field="description">Description</styled.tableCell>
                 <styled.tableCell field="tools" />
               </styled.tableRow>

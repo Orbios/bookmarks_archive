@@ -37,7 +37,11 @@ async function getTags() {
   let result: any = [];
 
   for (let tag of data.tags) {
-    result.push(Object.assign({}, tag));
+    const newTag = Object.assign({}, tag);
+
+    newTag.bookmarkCount = data.bookmarks.filter(bookmark => bookmark.tags.includes(tag.id)).length;
+
+    result.push(newTag);
   }
 
   result.sort((x, y) => x.title.localeCompare(y.title));
