@@ -86,7 +86,7 @@ function BookmarkItem({
         </styledCommon.cell>
 
         <styledCommon.cell field="url">
-          <Tooltip id={`url-tooltip-${bookmarkId}`} title={bookmark.url}>
+          <Tooltip id={`url-tooltip-${bookmarkId}`} title={bookmark.url} placement="left">
             <Button variant="link" onClick={openLink}>
               {shortenedUrl}
             </Button>
