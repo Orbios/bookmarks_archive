@@ -28,7 +28,7 @@ const initialState: BookmarkState = {
     sortBy: SORT_BY.TITLE,
     sortAsc: true,
     searchStr: '',
-    searchMode: SEARCH_MODE.NO_TAGS,
+    searchMode: SEARCH_MODE.ALL,
     searchTags: []
   }
 };

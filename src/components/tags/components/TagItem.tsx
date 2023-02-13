@@ -36,7 +36,7 @@ function TagItem({tag, editTagAction, deleteTagAction}: Props) {
   function redirectToHomePage() {
     const selectedTags = [{value: tag.id, label: tag.title}];
 
-    dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.TAG_SELECTION, searchTags: selectedTags}));
+    dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.ALL, searchTags: selectedTags}));
     navigate('/');
   }
 

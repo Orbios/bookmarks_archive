@@ -116,6 +116,8 @@ function filterBookmarks(list, mode, tags) {
   });
 
   switch (mode) {
+    case SEARCH_MODE.ALL:
+      break;
     case SEARCH_MODE.NO_TAGS:
       result = result.filter(bookmark => {
         return bookmark.tags.length === 0;

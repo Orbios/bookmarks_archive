@@ -31,14 +31,14 @@ function BookmarksSearchFilter() {
 
   function handleClear() {
     setSearchStr('');
-    setSearchMode('');
+    setSearchMode(SEARCH_MODE.ALL);
     setSelectedTags([]);
 
-    dispatch(setSearchParams({searchStr: '', searchMode: '', searchTags: []}));
+    dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.ALL, searchTags: []}));
   }
 
   function toggleSearchMode(id: string) {
-    const searchModes = [SEARCH_MODE.NO_TAGS, SEARCH_MODE.DELETED, SEARCH_MODE.TAG_SELECTION];
+    const searchModes = [SEARCH_MODE.ALL, SEARCH_MODE.NO_TAGS, SEARCH_MODE.DELETED, SEARCH_MODE.TAG_SELECTION];
 
     if (searchModes.includes(id)) {
       setSearchMode(id);
@@ -69,6 +69,14 @@ function BookmarksSearchFilter() {
       />
 
       <styled.sectionTitle>Mode:</styled.sectionTitle>
+
+      <BookmarkSearchMode
+        title="All bookmarks"
+        id={SEARCH_MODE.ALL}
+        searchMode={searchMode}
+        onToggle={toggleSearchMode}>
+        Search for all bookmarks.
+      </BookmarkSearchMode>
 
       <BookmarkSearchMode
         title="New bookmarks (no tags)"
