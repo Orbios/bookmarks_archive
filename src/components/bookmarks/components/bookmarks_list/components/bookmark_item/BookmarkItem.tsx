@@ -131,7 +131,7 @@ function BookmarkItem({
               </Tooltip>
             )}
 
-            <BookmarkTooltip id={`info-tooltip-${bookmarkId}`} bookmark={bookmark}>
+            <BookmarkTooltip id={`info-tooltip-${bookmarkId}`} bookmark={bookmark} placement="bottomLeft">
               <styled.tooltipWrapper>
                 <AppIcon icon="exclamation" color={colors.green} />
               </styled.tooltipWrapper>

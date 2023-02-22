@@ -15,7 +15,7 @@ Project is based on following template: [https://github.com/electron-vite/electr
 
 ```bash
 # start local dev env
-npm run dev
+npm run start
 
 # build installation package for current OS
 npm run build

@@ -16,10 +16,11 @@ const TagItem = styled.div`
 interface Props {
   id: string;
   bookmark: Bookmark;
+  placement?: string;
   children: JSX.Element;
 }
 
-function BookmarkTooltip({id, bookmark, children}: Props) {
+function BookmarkTooltip({id, bookmark, placement = 'bottom', children}: Props) {
   function renderTooltip() {
     const date = bookmark.creationDate ? dateHelper.displayDate(bookmark.creationDate) : '';
 
@@ -44,7 +45,7 @@ function BookmarkTooltip({id, bookmark, children}: Props) {
   }
 
   return (
-    <Tooltip id={id} title={renderTooltip()}>
+    <Tooltip id={id} title={renderTooltip()} placement={placement}>
       {children}
     </Tooltip>
   );

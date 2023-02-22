@@ -11,7 +11,7 @@ body {
   font-size: 15px;
 }
 
-/* bootstrap overide start */
+/* bootstrap override */
 
 label {
   font-weight: 500;
@@ -25,9 +25,9 @@ ul {
   margin-bottom: 0;
 }
 
-.tooltip-inner {
-  text-align: left;
-  max-width: -webkit-fill-available;
-}
+/* rc-tooltip override */
 
-/* bootstrap overide end */
+.rc-tooltip-inner {
+  max-width: 600px;
+  word-break: break-all;
+}
