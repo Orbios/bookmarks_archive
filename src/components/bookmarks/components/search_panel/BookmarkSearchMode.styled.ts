@@ -3,12 +3,16 @@ import styled from 'styled-components';
 const activeColor = '#c7bcc6';
 
 export const wrapper = styled.div<{active: boolean}>`
+  cursor: pointer;
   margin-top: 10px;
   color: ${props => props.active && activeColor};
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 export const title = styled.span`
-  cursor: pointer;
   user-select: none;
   font-weight: bold;
   margin-left: 7px;

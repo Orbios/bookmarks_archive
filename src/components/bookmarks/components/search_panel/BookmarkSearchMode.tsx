@@ -21,10 +21,10 @@ function BookmarkSearchMode({id, title, searchMode, onToggle, children}: Props) 
     const iconName: IconName = active ? 'circleChecked' : 'circleEmpty';
 
     return (
-      <styled.wrapper active={active}>
+      <styled.wrapper active={active} onClick={handleOnToggle}>
         <AppIcon icon={iconName} />
 
-        <styled.title onClick={handleOnToggle}>{title}</styled.title>
+        <styled.title>{title}</styled.title>
 
         {active ? <styled.contentContainer>{children}</styled.contentContainer> : null}
       </styled.wrapper>
