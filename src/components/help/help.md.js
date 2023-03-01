@@ -9,7 +9,7 @@ As the number of bookmarks saved in your browser grows, it can become inconvenie
 
 ### Functionality
 
-*BA* allows you to import bookmarks from any major browser. To do so, you need to first export your bookmarks as an HTML file.  
+*BA* allows you to **import bookmarks** from any major browser. To do so, you need to first export your bookmarks as an HTML file.  
 
 Here's how to export bookmarks from Google Chrome as an HTML file:
 
@@ -19,6 +19,8 @@ Here's how to export bookmarks from Google Chrome as an HTML file:
 4. Choose a location on your computer where you want to save the HTML file, give it a name, and click on "*Save*".
 
 Once you have the HTML file, you can use it to import bookmarks into *BA*. 
+
+To store bookmarks data in the **cloud**, you can use Dropbox or Google Drive. Just create a folder in your **Dropbox** or **Google Drive** and set it as bookmarks data location.
 
 You can import bookmarks multiple times, but each bookmark will be imported only once. 
 
