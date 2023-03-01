@@ -4,6 +4,9 @@ import {Button} from '@/components/bootstrap';
 import {useAppDispatch} from '@/hooks';
 
 import importActions from '@/actions/importActions';
+import {setSearchParams} from '@/reducers/bookmarkSlice';
+
+import SEARCH_MODE from '@/constants/searchMode';
 
 import uiHelper from '@/helpers/uiHelper';
 
@@ -38,6 +41,10 @@ function ImportPage() {
 
     setAdded(importResults.added);
     setSkipped(importResults.skipped);
+
+    if (!importResults.added) return;
+
+    await dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.ALL, searchTags: []}));
   }
 
   function render() {

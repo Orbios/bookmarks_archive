@@ -8,6 +8,8 @@ import statisticsActions from '@/actions/statisticsActions';
 import bookmarkActions from '@/actions/bookmarkActions';
 import tagActions from '@/actions/tagActions';
 
+import SEARCH_MODE from '@/constants/searchMode';
+
 import BookmarkStatistics from './components/search_panel/BookmarkStatistics';
 import BookmarksSearchFilter from './components/search_panel/BookmarksSearchFilter';
 import BookmarksList from './components/bookmarks_list/BookmarksList';
@@ -52,7 +54,7 @@ function BookmarksPage() {
 
     //if no new items, search for all instead
     if (bookmarksCount === 0 && isInitialLoad) {
-      await dispatch(setSearchMode(''));
+      await dispatch(setSearchMode(SEARCH_MODE.ALL));
       return;
     }
 
