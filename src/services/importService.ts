@@ -1,11 +1,26 @@
-import {find, isEmpty, forEach} from 'lodash';
-import {format} from 'date-fns';
+import {find, isEmpty, forEach, startsWith} from 'lodash';
 
-import config from '@/config';
 import storageHelper from './storageHelper';
 
 const fs = require('fs-extra');
 const parse5 = require('parse5');
+
+const IMPORT_TAGS = true;
+const DEFAULT_BROWSER_FOLDERS = [
+  'bookmarks bar', //chrome, opera, canary
+  'bookmarks toolbar', //firefox
+  'favorites bar', //edge
+  'other bookmarks', //common
+  'mobile bookmarks' //common
+];
+
+interface ImportedBookmark {
+  title: string;
+  url: string;
+  date: Date;
+  originalPath: string;
+  tag: string;
+}
 
 export default {
   importBrowserBookmarks
@@ -29,13 +44,14 @@ async function importBrowserBookmarks(filePath) {
     return node.tagName === 'dl';
   });
 
-  const bookmarks = importFolder(mainFolder, [], []);
+  const importedBookmarks: ImportedBookmark[] = importFolder(mainFolder, [], []);
 
   const existingData = await storageHelper.readData();
 
   const urlsLookup = {};
   const newUrlsLookup = {};
   let maxId = 0;
+  let tagId = existingData.tags.length;
 
   for (let bookmark of existingData.bookmarks) {
     urlsLookup[bookmark.url] = true;
@@ -44,13 +60,13 @@ async function importBrowserBookmarks(filePath) {
     }
   }
 
-  for (let bookmark of bookmarks) {
-    if (urlsLookup[bookmark.url]) {
+  for (const importedBookmark of importedBookmarks) {
+    if (urlsLookup[importedBookmark.url]) {
       result.skipped++;
       continue;
     }
 
-    if (newUrlsLookup[bookmark.url]) {
+    if (newUrlsLookup[importedBookmark.url]) {
       continue;
     }
 
@@ -58,17 +74,35 @@ async function importBrowserBookmarks(filePath) {
 
     const newBookmark: Bookmark = {
       id: bookmarkId,
-      title: bookmark.title,
-      url: bookmark.url,
+      title: importedBookmark.title,
+      url: importedBookmark.url,
       isDeleted: false,
       tags: [],
-      creationDate: bookmark.date,
-      originalPath: bookmark.originalPath
+      creationDate: importedBookmark.date,
+      originalPath: importedBookmark.originalPath
     };
+
+    if (IMPORT_TAGS && importedBookmark.tag) {
+      const existingTag: Tag | undefined = find(existingData.tags, tag => tag.title === importedBookmark.tag);
+
+      if (existingTag) {
+        newBookmark.tags.push(existingTag.id as any);
+      } else {
+        const newTagId = ++tagId;
+
+        const newTag: Tag = {
+          id: newTagId,
+          title: importedBookmark.tag
+        };
+
+        newBookmark.tags.push(newTag.id as any);
+        existingData.tags.push(newTag);
+      }
+    }
 
     existingData.bookmarks.push(newBookmark);
 
-    newUrlsLookup[bookmark.url] = true;
+    newUrlsLookup[importedBookmark.url] = true;
 
     result.added++;
   }
@@ -78,7 +112,7 @@ async function importBrowserBookmarks(filePath) {
   return Promise.resolve(result);
 }
 
-function importFolder(folderNode, pathFolders, bookmarks) {
+function importFolder(folderNode, pathFolders, bookmarks): ImportedBookmark[] {
   const childNodes = folderNode ? folderNode.childNodes : [];
 
   const length = childNodes.length;
@@ -105,11 +139,12 @@ function importFolder(folderNode, pathFolders, bookmarks) {
       const dateFull = getFullDate(timeUnix);
 
       //console.log(`Bookmark: Folder: ${folderName} Date: ${dateFull} Name: ${name} Url: ${href}`);
-      const bookmark = {
+      const bookmark: ImportedBookmark = {
         title: name,
         url: href,
         date: dateFull,
-        originalPath: currentPath.toLocaleLowerCase()
+        originalPath: currentPath.toLocaleLowerCase(),
+        tag: getBookmarkTag(currentPath)
       };
 
       bookmarks.push(bookmark);
@@ -155,6 +190,23 @@ function getFullDate(attrValue) {
   const unixTime = parseInt(attrValue);
   const result = new Date(unixTime * 1000);
   return result;
+}
+
+function getBookmarkTag(currentPath: string) {
+  const isDefaultFolder = DEFAULT_BROWSER_FOLDERS.find(
+    folder => currentPath.toLowerCase() === folder.toLocaleLowerCase()
+  );
+  if (isDefaultFolder) return '';
+
+  let tag = currentPath;
+
+  DEFAULT_BROWSER_FOLDERS.forEach(folder => {
+    tag = tag.replace(new RegExp(folder, 'gi'), '');
+  });
+
+  if (startsWith(tag, '/')) tag = tag.substring(1);
+
+  return tag;
 }
 
 function findNode(node, predicate) {
