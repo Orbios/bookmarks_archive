@@ -12,6 +12,7 @@ interface SearchQuery {
   searchStr: string;
   searchMode: string;
   searchTags: TagOption[];
+  includeNestedTags: boolean;
 }
 
 interface BookmarkState {
@@ -29,7 +30,8 @@ const initialState: BookmarkState = {
     sortAsc: true,
     searchStr: '',
     searchMode: SEARCH_MODE.ALL,
-    searchTags: []
+    searchTags: [],
+    includeNestedTags: false
   }
 };
 
@@ -58,12 +60,18 @@ export const bookmarkSlice = createSlice({
     },
     setSearchParams: (
       state,
-      action: PayloadAction<{searchStr: string; searchMode: string; searchTags: TagOption[]}>
+      action: PayloadAction<{
+        searchStr: string;
+        searchMode: string;
+        searchTags: TagOption[];
+        includeNestedTags?: boolean;
+      }>
     ) => {
       state.searchQuery.searchStr = action.payload.searchStr;
       state.searchQuery.searchMode = action.payload.searchMode;
       state.searchQuery.searchTags = action.payload.searchTags;
       state.searchQuery.activePage = 1;
+      state.searchQuery.includeNestedTags = action.payload.includeNestedTags || false;
     }
   }
 });

@@ -24,15 +24,17 @@ function BookmarksSearchFilter() {
   const [searchStr, setSearchStr] = useState<string>(searchQuery.searchStr);
   const [searchMode, setSearchMode] = useState<string>(searchQuery.searchMode);
   const [selectedTags, setSelectedTags] = useState<TagOption[]>(searchQuery.searchTags);
+  const [includeNestedTags, setIncludeNestedTags] = useState<boolean>(false);
 
   function handleSearch() {
-    dispatch(setSearchParams({searchStr, searchMode, searchTags: selectedTags}));
+    dispatch(setSearchParams({searchStr, searchMode, searchTags: selectedTags, includeNestedTags}));
   }
 
   function handleClear() {
     setSearchStr('');
     setSearchMode(SEARCH_MODE.ALL);
     setSelectedTags([]);
+    setIncludeNestedTags(false);
 
     dispatch(setSearchParams({searchStr: '', searchMode: SEARCH_MODE.ALL, searchTags: []}));
   }
@@ -51,6 +53,10 @@ function BookmarksSearchFilter() {
     });
 
     setSelectedTags(selected);
+  }
+
+  function toggleCheckbox() {
+    setIncludeNestedTags(val => !val);
   }
 
   return (
@@ -98,6 +104,16 @@ function BookmarksSearchFilter() {
           value={selectedTags}
           onChange={updateState}
         />
+
+        <label>
+          <input
+            type="checkbox"
+            id={`${SEARCH_MODE.TAG_SELECTION}-checkbox`}
+            checked={includeNestedTags}
+            onChange={toggleCheckbox}
+          />{' '}
+          Include nested tags
+        </label>
       </BookmarkSearchMode>
 
       <BookmarkSearchMode

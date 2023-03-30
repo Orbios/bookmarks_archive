@@ -25,6 +25,7 @@ async function getBookmarks(searchQuery) {
     searchStr: searchQuery.searchStr,
     searchMode: searchQuery.searchMode,
     searchTags: searchQuery.searchTags,
+    includeNestedTags: searchQuery.includeNestedTags,
     pageSize: config.pageSize
   };
 

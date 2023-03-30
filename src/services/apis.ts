@@ -94,7 +94,13 @@ async function updateTag(tag) {
 async function getBookmarks(searchQuery) {
   const data = await getData();
 
-  let bookmarks = filterBookmarks(data.bookmarks, searchQuery.searchMode, searchQuery.searchTags);
+  let bookmarks = filterBookmarks(
+    data.bookmarks,
+    data.tags,
+    searchQuery.searchMode,
+    searchQuery.searchTags,
+    searchQuery.includeNestedTags
+  );
 
   bookmarks = cacheHelper.searchList(bookmarks, searchQuery.searchStr, ['title', 'url']);
 
@@ -114,7 +120,7 @@ async function getBookmarks(searchQuery) {
   };
 }
 
-function filterBookmarks(list, mode, tags) {
+function filterBookmarks(list, tags, mode, searchedTags: TagOption[], includeNestedTags: boolean) {
   let result = list.filter(bookmark => {
     return mode === SEARCH_MODE.DELETED ? bookmark.isDeleted : !bookmark.isDeleted;
   });
@@ -128,15 +134,34 @@ function filterBookmarks(list, mode, tags) {
       });
       break;
     case SEARCH_MODE.TAG_SELECTION:
-      const tagIds = tags.map(t => t.value);
+      if (includeNestedTags) {
+        const tagsLookup = tags.reduce((acc, tag) => {
+          acc[tag.id] = tag.title;
+          return acc;
+        }, {});
 
-      result = result.filter(bookmark => {
-        const selectedTags = bookmark.tags.filter(id => {
-          return tagIds.indexOf(id) !== -1;
+        result = result.filter(bookmark => {
+          const selectedTags = bookmark.tags.filter(id => {
+            //bookmark tag in format 'IT/Programming/JavaScript'
+            const bookmarkTag = tagsLookup[id];
+
+            return searchedTags.some(t => bookmarkTag.indexOf(t.label) !== -1);
+          });
+
+          return selectedTags.length > 0;
         });
+      } else {
+        const tagIds = searchedTags.map(t => t.value);
 
-        return selectedTags.length > 0;
-      });
+        result = result.filter(bookmark => {
+          const selectedTags = bookmark.tags.filter(id => {
+            return tagIds.indexOf(id) !== -1;
+          });
+
+          return selectedTags.length > 0;
+        });
+      }
+
       break;
     default:
       break;

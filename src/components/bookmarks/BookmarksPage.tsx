@@ -31,7 +31,7 @@ const SearchPanel = styled.div`
 function BookmarksPage() {
   const dispatch = useAppDispatch();
 
-  const {sortAsc, activePage, sortBy, searchStr, searchMode, searchTags} = useAppSelector(
+  const {sortAsc, activePage, sortBy, searchStr, searchMode, searchTags, includeNestedTags} = useAppSelector(
     state => state.bookmark.searchQuery
   );
 
@@ -45,7 +45,7 @@ function BookmarksPage() {
     if (isInitialLoad) return;
 
     loadData();
-  }, [sortAsc, activePage, sortBy, searchStr, searchMode, searchTags]);
+  }, [sortAsc, activePage, sortBy, searchStr, searchMode, searchTags, includeNestedTags]);
 
   async function loadData() {
     await loadTags();
