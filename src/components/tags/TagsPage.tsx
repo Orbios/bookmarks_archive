@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react';
 import {isEmpty} from 'lodash';
+import {Button} from '@/components/bootstrap';
 
 import {useAppDispatch, useAppSelector} from '@/hooks';
 import {confirmAction} from '@/reducers/commonSlice';
+import {setSortOrder} from '@/reducers/tagSlice';
 
 import tagActions from '@/actions/tagActions';
 
@@ -10,6 +12,7 @@ import uiHelper from '@/helpers/uiHelper';
 
 import ListAction from '@/components/common/ListAction';
 import SaveTag from '@/components/common/SaveTag';
+import AppIcon, {IconName} from '@/components/common/AppIcon';
 
 import TagItem from './components/TagItem';
 
@@ -21,6 +24,7 @@ function TagsPage() {
   const dispatch = useAppDispatch();
 
   const tags = useAppSelector(state => state.tag.list);
+  const sortOrder = useAppSelector(state => state.tag.sortOrder);
 
   const [tagToEdit, setTagToEdit] = useState<Tag | null>(null);
 
@@ -81,6 +85,31 @@ function TagsPage() {
     await loadTags();
   }
 
+  async function updateSortOrder(field: styled.tagField) {
+    const updatedSortOrder = {
+      sortBy: field,
+      sortAsc: !sortOrder.sortAsc
+    };
+
+    await dispatch(setSortOrder(updatedSortOrder));
+  }
+
+  function renderColumnSortHeader(field: styled.tagField, label: string) {
+    const icon: IconName = sortOrder.sortAsc ? 'arrowDown' : 'arrowUp';
+
+    return (
+      <styled.tableCell field={field}>
+        <styled.sortContainer onClick={() => updateSortOrder(field)}>
+          <Button variant="link">{label}</Button>
+
+          <span onClick={() => updateSortOrder(field)}>
+            <AppIcon icon={icon} />
+          </span>
+        </styled.sortContainer>
+      </styled.tableCell>
+    );
+  }
+
   function render() {
     const anyTags = !isEmpty(tags);
 
@@ -96,9 +125,9 @@ function TagsPage() {
           <>
             <styled.tableHeader>
               <styled.tableRow>
-                <styled.tableCell field="title">Title</styled.tableCell>
-                <styled.tableCell field="bookmarks">Number of bookmarks</styled.tableCell>
-                <styled.tableCell field="description">Description</styled.tableCell>
+                {renderColumnSortHeader('title', 'Title')}
+                {renderColumnSortHeader('bookmarkCount', 'Number of bookmarks')}
+                {renderColumnSortHeader('description', 'Description')}
                 <styled.tableCell field="tools" />
               </styled.tableRow>
             </styled.tableHeader>

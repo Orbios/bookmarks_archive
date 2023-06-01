@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components';
 
 import {colors} from '@/styles/shared';
 
-type tagField = 'title' | 'bookmarks' | 'description' | 'tools';
+export type tagField = 'title' | 'bookmarkCount' | 'description' | 'tools';
 
 export const wrapper = styled.div`
   position: absolute;
@@ -48,7 +48,7 @@ export const tableCell = styled.div<{field: tagField}>`
     `}
 
   ${props =>
-    props.field === 'bookmarks' &&
+    props.field === 'bookmarkCount' &&
     css`
       min-width: 300px;
     `}
@@ -65,6 +65,16 @@ export const tableCell = styled.div<{field: tagField}>`
     css`
       min-width: 100px;
     `}
+`;
+
+export const sortContainer = styled.span`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  & button {
+    color: initial;
+  }
 `;
 
 export const noTagsMessage = styled.div`

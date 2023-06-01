@@ -48,7 +48,7 @@ function TagItem({tag, editTagAction, deleteTagAction}: Props) {
         </Button>
       </styledCommon.tableCell>
 
-      <styledCommon.tableCell field="bookmarks">{tag.bookmarkCount || '-'}</styledCommon.tableCell>
+      <styledCommon.tableCell field="bookmarkCount">{tag.bookmarkCount || '-'}</styledCommon.tableCell>
 
       <styledCommon.tableCell field="description">{tag.description}</styledCommon.tableCell>
 
