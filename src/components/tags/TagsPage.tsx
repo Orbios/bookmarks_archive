@@ -86,25 +86,30 @@ function TagsPage() {
   }
 
   async function updateSortOrder(field: styled.tagField) {
+    const sortAsc = sortOrder.sortBy === field ? !sortOrder.sortAsc : true;
+
     const updatedSortOrder = {
       sortBy: field,
-      sortAsc: !sortOrder.sortAsc
+      sortAsc
     };
 
     await dispatch(setSortOrder(updatedSortOrder));
   }
 
   function renderColumnSortHeader(field: styled.tagField, label: string) {
-    const icon: IconName = sortOrder.sortAsc ? 'arrowDown' : 'arrowUp';
+    const icon: IconName = sortOrder.sortAsc ? 'caretDown' : 'caretUp';
+    const isActiveOrder = sortOrder.sortBy === field;
 
     return (
       <styled.tableCell field={field}>
         <styled.sortContainer onClick={() => updateSortOrder(field)}>
           <Button variant="link">{label}</Button>
 
-          <span onClick={() => updateSortOrder(field)}>
-            <AppIcon icon={icon} />
-          </span>
+          {isActiveOrder && (
+            <styled.sortIconContainer isAscending={sortOrder.sortAsc}>
+              <AppIcon icon={icon} size="xl" color="gray" />
+            </styled.sortIconContainer>
+          )}
         </styled.sortContainer>
       </styled.tableCell>
     );

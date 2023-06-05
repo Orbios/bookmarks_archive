@@ -74,7 +74,12 @@ export const sortContainer = styled.span`
 
   & button {
     color: initial;
+    padding-right: 6px;
   }
+`;
+
+export const sortIconContainer = styled.span<{isAscending: boolean}>`
+  margin-top: ${props => (props.isAscending ? '0' : '6px')};
 `;
 
 export const noTagsMessage = styled.div`

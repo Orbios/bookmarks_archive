@@ -17,7 +17,9 @@ import {
   faCircleExclamation,
   faRotateLeft,
   faMagnifyingGlass,
-  faGear
+  faGear,
+  faCaretDown,
+  faCaretUp
 } from '@fortawesome/free-solid-svg-icons';
 import {faQuestionCircle, faCircle, faTrashCan} from '@fortawesome/free-regular-svg-icons';
 
@@ -40,7 +42,9 @@ const map = {
   exclamation: faCircleExclamation,
   undo: faRotateLeft,
   search: faMagnifyingGlass,
-  preferences: faGear
+  preferences: faGear,
+  caretDown: faCaretDown,
+  caretUp: faCaretUp
 };
 
 export type IconName =
@@ -60,7 +64,9 @@ export type IconName =
   | 'exclamation'
   | 'undo'
   | 'search'
-  | 'preferences';
+  | 'preferences'
+  | 'caretDown'
+  | 'caretUp';
 
 interface Props {
   icon: IconName;
